@@ -1,12 +1,10 @@
-import 'dart:async';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'activity.dart';
 
-Future<Activity> fetchActivity() async {
+final activityProvider = FutureProvider.autoDispose((ref) async {
   final Dio dio = Dio();
   final response = await dio.get('https://boredapi.com/api/activity');
 
@@ -21,51 +19,25 @@ Future<Activity> fetchActivity() async {
     // If the server did not return a 200 OK response,then throw an exception.
     throw Exception('Failed to load activity.dart');
   }
-}
+});
 
-void main() => runApp(const MyApp());
+void main() => runApp(const ProviderScope(child: MyApp2()));
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  late Future<Activity> futureAlbum;
+class MyApp2 extends ConsumerWidget {
+  const MyApp2({super.key});
 
   @override
-  void initState() {
-    super.initState();
-    futureAlbum = fetchActivity();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       title: 'Fetch Data Example',
       theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
       home: Scaffold(
         appBar: AppBar(title: const Text('Fetch Data Example')),
         body: Center(
-          child: FutureBuilder<Activity>(
-            future: futureAlbum,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data!.activity);
-              } else if (snapshot.hasError) {
-                if (kDebugMode) {
-                  print(snapshot.error ?? '');
-                }
-                return Text('${snapshot.error}');
-              }
-
-              // By default, show a loading spinner.
-              return const CircularProgressIndicator();
-            },
-          ),
-        ),
+            child: ref.watch(activityProvider).when(
+                data: (activity) => Text(activity.activity),
+                error: (error, __) => Text(error.toString()),
+                loading: () => const CircularProgressIndicator())),
       ),
     );
   }

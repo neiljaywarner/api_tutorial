@@ -1,31 +1,31 @@
 class Activity {
-  String? activity;
-  String? type;
-  int? participants;
-  double? price;
-  String? link;
-  String? key;
-  double? accessibility;
+  String activity;
+  String type;
+  int participants;
+  double price;
+  String link;
+  String key;
+  double accessibility;
 
   Activity({
-    this.activity,
-    this.type,
-    this.participants,
-    this.price,
-    this.link,
-    this.key,
-    this.accessibility,
+    required this.activity,
+    required this.type,
+    required this.participants,
+    required this.price,
+    required this.link,
+    required this.key,
+    required this.accessibility,
   });
 
   factory Activity.fromJson(Map<String, dynamic> json) {
     return Activity(
-      activity: json['activity'] as String?,
-      type: json['type'] as String?,
-      participants: json['participants'] as int?,
-      price: json['price'] as double?,
-      link: json['link'] as String?,
-      key: json['key'] as String?,
-      accessibility: json['accessibility'] as double?,
+      activity: json['activity'] as String,
+      type: json['type'] as String,
+      participants: json['participants'] as int,
+      price: json['price'] as double,
+      link: json['link'] as String,
+      key: json['key'] as String,
+      accessibility: json['accessibility'] as double,
     );
   }
 

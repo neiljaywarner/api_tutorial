@@ -8,11 +8,13 @@ import 'activity.dart';
 
 Future<Activity> fetchActivity() async {
   final Dio dio = Dio();
-  final response = await dio.get('https://jsonplaceholder.typicode.com/albums/1');
+  final response = await dio.get('https://boredapi.com/api/activity');
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,then parse the JSON.
-    return Activity.fromJson(response.data as Map<String, dynamic>);
+    Activity activity = Activity.fromJson(response.data as Map<String, dynamic>);
+    debugPrint(activity.toString());
+    return activity;
   } else {
     // If the server did not return a 200 OK response,then throw an exception.
     throw Exception('Failed to load activity.dart');
@@ -49,7 +51,7 @@ class _MyAppState extends State<MyApp> {
             future: futureAlbum,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text(snapshot.data!.activity);
+                return Text(snapshot.data!.activity ?? '');
               } else if (snapshot.hasError) {
                 if (kDebugMode) {
                   print(snapshot.error ?? '');

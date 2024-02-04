@@ -12,6 +12,8 @@ Future<Activity> fetchActivity() async {
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,then parse the JSON.
+    debugPrint(response.toString());
+
     Activity activity = Activity.fromJson(response.data as Map<String, dynamic>);
     debugPrint(activity.toString());
     return activity;
@@ -51,7 +53,7 @@ class _MyAppState extends State<MyApp> {
             future: futureAlbum,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text(snapshot.data!.activity ?? '');
+                return Text(snapshot.data!.activity);
               } else if (snapshot.hasError) {
                 if (kDebugMode) {
                   print(snapshot.error ?? '');

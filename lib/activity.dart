@@ -1,40 +1,27 @@
 class Activity {
   String activity;
   String type;
-  int participants;
   double price;
-  String link;
-  String key;
-  double accessibility;
 
   Activity({
     required this.activity,
     required this.type,
-    required this.participants,
     required this.price,
-    required this.link,
-    required this.key,
-    required this.accessibility,
   });
 
   factory Activity.fromJson(Map<String, dynamic> json) {
     return Activity(
       activity: json['activity'] as String,
       type: json['type'] as String,
-      participants: json['participants'] as int,
       price: json['price'] as double,
-      link: json['link'] as String,
-      key: json['key'] as String,
-      accessibility: json['accessibility'] as double,
     );
   }
 
   @override
-  String toString() =>
-      "Activity(activity: $activity,type: $type,participants: $participants,price: $price,link: $link,key: $key,accessibility: $accessibility)";
+  String toString() => "Activity(activity: $activity,type: $type,price: $price)";
 
   @override
-  int get hashCode => Object.hash(activity, type, participants, price, link, key, accessibility);
+  int get hashCode => Object.hash(activity, type, price);
 
   @override
   bool operator ==(Object other) =>
@@ -43,22 +30,14 @@ class Activity {
           runtimeType == other.runtimeType &&
           activity == other.activity &&
           type == other.type &&
-          participants == other.participants &&
-          price == other.price &&
-          link == other.link &&
-          key == other.key &&
-          accessibility == other.accessibility;
+          price == other.price;
 }
 
-// from https://dartj.web.app/ from below with "declare a variable as nullable"
+// from https://dartj.web.app/ from below
 /*
 {
-  "activity": "Bake something you've never tried before",
-  "type": "cooking",
-  "participants": 1,
-  "price": 0.4,
-  "link": "",
-  "key": "5665663",
-  "accessibility": 0.3
+    "activity": "Bake something you've never tried before",
+    "type": "cooking",
+    "price": 0.4
 }
  */
